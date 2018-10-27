@@ -17,7 +17,9 @@ int RGB2Gray(unsigned char red, unsigned char green, unsigned char blue){
 #ifdef TEST_IMGTOGRAY
 
 BMPImage * ImgToGray(BMPImage * image){
-
+	int width = (image->header).width;
+	int height = (image->header).height;
+	int pixel=0;
 	// use code from your HW10
 
 }

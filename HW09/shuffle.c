@@ -58,12 +58,15 @@ void shuffle(CardDeck orig_deck, int repeat)
 {
     // declare a variable to hold the number of pairs
         // we can say that we have only size-1 possibility of pairs
-
+	int pairs = orig_deck.size - 1;
+	if pairs == 0
+		return;
     // if number of pairs == 0; return;
-
+	CardDeck *upper_deck = NULL;
+	CardDeck *lower_deck = NULL;
 	// instantiate pointers to hold both upper and lower decks (after division)
 	   // For example: CardDeck * upper_deck = NULL;
-
+	
 	// allocate memory based on number of pairs
 	   //For example: upper_deck = malloc(numpairs*sizeof(CardDeck));
 
@@ -81,7 +84,7 @@ void shuffle(CardDeck orig_deck, int repeat)
 void repeat_shuffle(CardDeck orig_deck, int k)
 {
 	//orig_deck contains a deck of cards, and it's size.
-
+	
 	//If (k ≤ 0), no shuffling, print the only possible outcome.
 		//printDeck(orig_deck); and return
 		//TIP: Print only the results obtained after k rounds of shuffling

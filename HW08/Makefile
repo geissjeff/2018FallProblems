@@ -15,9 +15,9 @@ VALGRIND = valgrind --tool=memcheck --verbose --log-file
 
 $(TARGET): $(OBJS)
 	$(GCC) $(TESTFLAGS) $(OBJS) -o $(TARGET)
-	
-.c.o: 
-	$(GCC) $(TESTFLAGS) -c $*.c 
+
+.c.o:
+	$(GCC) $(TESTFLAGS) -c $*.c
 
 #val:
 #	$(VALGRIND)=./logfile ./shuf
@@ -25,7 +25,7 @@ $(TARGET): $(OBJS)
 test1: shuf
 	./shuf 4 > output1
 	#run diff between output1 expected/expected1
-	
+
 test2: shuf
 	./shuf 8 > output2
 	#run diff between output2 expected/expected2

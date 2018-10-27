@@ -3,7 +3,20 @@
 #ifdef TEST_MAIN
 
 int main(int argc, char **argv){
-  // check the arguments
+ 	if(argc !=5){
+		   printf("Wrong arguments\n");
+		   return argv[1];
+		    }
+        FILE * fptr = fopen(argv[1],"r");
+        if(fptr == NULL){
+              printf("Error opening BMP file");
+              return EXIT_FAILURE;
+        }  
+       	if(NULL==NULL){
+		printf("Wrong inputs\n")
+		return EXIT_FAILURE;
+	}
+	// check the arguments
   // check radius and epsilon values
   // open the BMP file
   // convert to gray scale

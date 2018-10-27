@@ -6,8 +6,8 @@
 #ifdef TEST_MERGE
 /* The merge(arr, l, m, r) is key process that assumes that arr[l..m] and 
 arr[m+1..r] are sorted and merges the two sorted sub-arrays into one.*/
-void merge(int arr[], int l, int m, int r) 
-{ 
+void merge(int arr[], int l, int m, int r)
+{
  /* int l defines the start index of the left sub array
     int r defines the end index of the right sub array, if the length of array is n, then r=n-1
     int m can be defined as (l+r)/2 or l+(r-l)/2, use the later to avoid overflow
@@ -15,12 +15,12 @@ void merge(int arr[], int l, int m, int r)
     For example- an array of size 5 has start index l= 0, and end index r= 4,
     Therefore, m = 2
 */
-    int n1 = m - l + 1; //The number of elements in the left sub array
-    int n2 =  r - m; //The number of elements in trhe right sub array
-  
+    int nleft = m - l + 1; //The number of elements in the left sub array
+    int nright =  r - m; //The number of elements in trhe right sub array
+
     //create temporary arrays dynamically to help with sorting
-    int *L=malloc(sizeof(* L) * n1); 
-    int *R=malloc(sizeof(* R) * n2); 
+    int *L=malloc(sizeof(* L) * nleft);
+    int *R=malloc(sizeof(* R) * nright);
     /* NOTE:
     L[] is the left sub array
     R[] is the right sub array
@@ -30,39 +30,61 @@ void merge(int arr[], int l, int m, int r)
     */
     //WRITE YOUR CODE BELOW THIS 
     //Initialise variables
- 
-    /* 
+    for(int i =0; i<nleft; i++){
+   	L[i] = arr[i+l];
+    }
+    for(int i=0; i<nright; i++){
+    	R[i] = arr[m+i+1];
+    }
+    int lpos = 0;
+    int rpos = 0;
+    for (int j=0 ; j< (nleft+nright) ; j++){
+    	if (rpos == nright  || (L[lpos] < R[rpos] && lpos != nleft)){
+		arr[l+j]=L[lpos];
+		lpos += 1;
+	}
+	else{
+		arr[l+j]=R[rpos];
+	       rpos += 1;
+	}
+    }
+    /*
     1.Copy data to temp arrays L[] and R[] from arr[]
     2. Merge the temp arrays back into arr[l..r]
-    3. Copy the remaining elements of L[], check if there 
-       are any 
-    4. Copy the remaining elements of R[], check if there 
+    3. Copy the remaining elements of L[], check if there
+       are any
+    4. Copy the remaining elements of R[], check if there
        are any */
  //DO not modify below this line until specified in comments
-	
+
 }
 #endif
 
 /* Merge Sort uses recursion to call itself. Thus, efficiently dividing the array into two halves.
 Then it must sort each half individually and finally join them back together using merge() into a single sorted array*/ 
 #ifdef TEST_MERGESSORT
-void mergeSort(int arr[], int l, int r) 
-{ 
+void mergeSort(int arr[], int l, int r)
+{
  /* int l defines the start index of the left sub array
     int r defines the end index of the right sub array
     int m has to be defined as (l+r)/2 or l+(r-l)/2, use the later to avoid overflow
     m will represent the endpoint of the left sub array.
     For example- an array of size 6 has start index l= 0, and end index r= 5,
     Therefore, m = 2*/
-	
 	//MODIFY THE CODE BELOW THIS LINE
     	/*
 	1. SET CONDITION for RECURSION 
 	2. Sort first half arr[l..m]
 	3. Sort second half arr[m+1..r]
         4. Use the merge() function to arrange in order */
+	int m = l+(r-l)/2;
+	if(m-l+1 > 1)
+		mergeSort(arr, l, m);
+	if(r-m > 1)
+		mergeSort(arr, m + 1, r);
+	merge(arr,l, m, r);
 	//DO not modify below this line until specified in comments
-    } 
+    }
 #endif
 int main(int argc, char * * argv)
 {
@@ -114,6 +136,7 @@ int main(int argc, char * * argv)
   // modify here between ifdef and endif
   // do not modify anywhere else in this function
   // call mergesort function and provide the correct arguments (Hint: array, start index, end index)
+	mergeSort(arr, 0,count-1); 
 #endif
   int i;
    /* open the file for writing*/

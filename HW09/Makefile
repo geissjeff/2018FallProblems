@@ -3,12 +3,12 @@ GCC = gcc
 CFLAGS = -g -std=c99 -Wall -Wshadow -Wvla -Werror -pedantic
 CC = $(GCC) $(CFLAGS)
 
-SRCS = #please complete
+SRCS = main.c utility.c shuffle.c 
 
 OBJS = $(SRCS:%.c=%.o)
 VALGRIND = valgrind --tool=memcheck --verbose --log-file
 
-TESTFALGS = #please complete
+TESTFALGS = -DTEST_MAIN -DTEST_SHUF -DTEST_INTER -DTEST_DIV
 
 $(TARGET): $(OBJS)
 	$(CC) $(TESTFALGS) $(OBJS) -o $(TARGET)

@@ -62,7 +62,8 @@ distance (const DataPoint * datapoint, const Centroid * centroid)
 {
   // since this is for comparison only, there is no need to call sqrt
   long long int sum = 0;	// must initialize to zero
-  // find Euclidean distance and then return 'sum' without calling sqrt
+  sum=(datapoint->dimension - centroid->dimension)*(datapoint->dimension - centroid->dimension);
+ // find Euclidean distance and then return 'sum' without calling sqrt
 	return sum;
 }
 
@@ -78,7 +79,18 @@ distance (const DataPoint * datapoint, const Centroid * centroid)
 // centroid from which the distance is smaller than previously seen,
 int closestCentroid (int kval, DataPoint * datapoint, Centroid * *centroids)
 {
-  int mindex; //index of the closest centroid 
+  int mindex=0; //index of the closest centroid
+ 
+ Centroid *cent = centroids[0];
+  long long int mdist=distance(datapoint, cent);
+for (int i=0;i<kval; i++){
+	cent = centroids[i];
+	if(distance(datapoint,cent) < mdist){
+		mindex=i;
+		mdist=distance(datapoint, cent);
+	}
+		
+} 
   // Please note that return value of distance is long long int, so initialize the values with the same type
   // go through each centroid and find the distance
   // keep track of minimum difference and index of centroid which has the smallest distance
@@ -98,11 +110,22 @@ int closestCentroid (int kval, DataPoint * datapoint, Centroid * *centroids)
 void kmean (int kval, int nval, DataPoint * *datapoints, Centroid * *centroids)
 {
 		// reset all centroids
-		
+		for(int i=0; i<kval; i++){
+			Centroid_reset(centroids[i]);	
+		}
 		// initialize each data point to a cluster between 0 and kval - 1
-
-		// find the centroid for initial random assignment of datapoints
-		
+	int j=0;
+	for(int i=0; i<nval; i++){
+		Centroid_addPoint(centroids[j], datapoints[i]);
+		datapoints[i]->cluster = j;
+		j++;
+		if(j == kval)
+			j = 0;
+	}	
+	// find the centroid for initial random assignment of datapoints
+	for(int i=0; i<kval; i++){
+		Centroid_findCenter(centroids[i]);
+	}		
 		// Now start the loop till convergence is met - (Please see README for understanding kmean algorithm convergence condition)
 		// 
 		// 1. for each data point, find the index of the centroid that is the closest
@@ -110,6 +133,30 @@ void kmean (int kval, int nval, DataPoint * *datapoints, Centroid * *centroids)
 		// 3. reset all the centroids
 		// 4. go through each datapoint again and add this datapoint to its centroid using Centroid_addPoint function
 		// 5. find the new centroid for each cluster by calling Centroid_findCenter 
+	int closest;
+	bool conv=true;
+	while(!conv){
+		conv=true;
+	for (int z=0; z<nval; z++){
+		closest=closestCentroid(kval,datapoints[z], centroids); 		
+		if(datapoints[z]->cluster != closest){
+			datapoints[z]->cluster=closest;
+			conv=false;
+		}
+		for(int i=0; i<kval; i++){
+			Centroid_reset(centroids[i]);
+		}
+		for(int w=0; w<nval; w++){
+			Centroid_addPoint(centroids[datapoints[w]->cluster],datapoints[w]);
+			
+		}
+		for(int i=0; i<kval; i++){
+                        Centroid_findCenter(centroids[i]);
+                }
+		
+	}
+	}
+		
 }
  
 #endif	
