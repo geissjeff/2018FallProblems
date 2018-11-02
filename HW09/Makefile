@@ -8,10 +8,10 @@ SRCS = main.c utility.c shuffle.c
 OBJS = $(SRCS:%.c=%.o)
 VALGRIND = valgrind --tool=memcheck --verbose --log-file
 
-TESTFALGS = -DTEST_MAIN -DTEST_SHUF -DTEST_INTER -DTEST_DIV
+TESTFLAGS = #please complete
 
 $(TARGET): $(OBJS)
-	$(CC) $(TESTFALGS) $(OBJS) -o $(TARGET)
+	$(CC) $(TESTFLAGS) $(OBJS) -o $(TARGET)
 
 testmemory: $(TARGET)
 	$(VALGRIND)=./valgrind.log ./shuf
@@ -24,7 +24,7 @@ test2: shuf
 	./shuf 4 3 | sort > output2
 	#perform diff between output2 and expected/expected2
 
-test2: shuf
+test3: shuf
 	./shuf 7 2 | sort > output3
 	#perform diff between output3 and expected/expected3	
 
