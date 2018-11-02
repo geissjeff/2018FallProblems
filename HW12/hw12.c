@@ -35,6 +35,12 @@ void LinkedListPrint(Node * head)
 
 Node * CreateNode(int value)
 {
+	Node * newNode = (Node *)malloc(sizeof(Node));
+	if(newNode == NULL)
+		return EXIT_FAILURE;
+	newNode.value = value;
+	newNode.next = NULL;
+	return newNode;
 	// allocate memory for the new Node*
 	// check memory allocation fails
 	// create a Node* with the value as 'value'(input argument).
@@ -50,6 +56,14 @@ Node * CreateNode(int value)
 // For example, if the singly linkedlist length is 4, the value of the nodes will be 0 1 2 3
 void LinkedListCreate(Node * * head, int length)
 {
+	Node * this;
+	Node * prev;
+	prev = head;
+	for(int i = 0; i < length; i++){
+		this = CreateNode(i+1);
+		prev->next = this;
+		prev = this;
+	}
 	// check if length is not negative
 	// create linked list of length as 'length'
 	// do not return anything
